@@ -50,7 +50,7 @@ public final class Constants {
 		public static final double VoltageCompensation = 12.0;
 
 		// Swerve Current Limiting
-		public static final int AzimuthContinuousCurrentLimit = 30;
+		public static final int AzimuthContinuousCurrentLimit = 40;
 		public static final int DriveContinuousCurrentLimit = 60;
 
 		// Angle Motor PID Values
@@ -133,9 +133,40 @@ public final class Constants {
 		public static final int LeftMotorCANID = 9;
 		public static final int RightMotorCANID = 10;
 		
+		public static final int LeftMotorSmartCurrentLimit = 70; // reduce limmit
+		public static final int RightMotorSmartCurrentLimit = 70;
+
+		public static final double LeftMotorSecondaryCurrentLimit = 110; // on off limit
+		public static final double RightMotorSecondaryCurrentLimit = 110;
+
 		public static final boolean LeftMotorIsInverted = false;
 		public static final boolean RightMotorIsInverted = true;
+	}
 
+	public static final class IntakeArm {
+
+		public static final int MotorCANDID = 11;
+
+		public static final int MotorSmartCurrentLimit = 70;
+		public static final double MotorSecondaryCurrentLimit = 110;
+
+		public static final double MotorP = 1;
+		public static final double MotorI = 0.1;
+		public static final double MotorIZone = 0.1;
+		public static final double MotorD = 0.25;
+		public static final double MotorFeedForward = 1;
+
+		public enum Position {
+			Pickup(1.0),
+			CarryCone(2.0),
+			CarryCube(3.0);
+		
+			public final double EncoderPosition;
+		
+			private Position(double encoderPosition) {
+				EncoderPosition = encoderPosition;
+			}
+		}
 	}
 
 }
