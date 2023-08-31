@@ -147,7 +147,9 @@ public final class Constants {
 			Pickup(-3.0, CANSparkMax.ControlType.kVelocity),
 			Hold(5, CANSparkMax.ControlType.kCurrent),
 			Drop(2.0, CANSparkMax.ControlType.kVelocity),
-			ScoreLow(3.0, CANSparkMax.ControlType.kVelocity);
+			ScoreLow(3.0, CANSparkMax.ControlType.kVelocity),
+			ScoreMid(3.0, CANSparkMax.ControlType.kVelocity),
+			ScoreHigh(3.0, CANSparkMax.ControlType.kVelocity);
 		
 			public final double Target;
 			public final CANSparkMax.ControlType ControlType;
@@ -156,6 +158,8 @@ public final class Constants {
 				Target = target;
 				ControlType = controlType;
 			}
+
+			public enum ControlType { Power, Velocity }
 		}
 	}
 
