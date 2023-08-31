@@ -8,7 +8,7 @@ public class SwerveModuleConstants {
 
 	public final int DriveMotorID;
 	public final int AzimuthMotorID;
-	public final int CADCoderID;
+	public final int CANCoderID;
 	public final Rotation2d AngleOffset;
 
 	/**
@@ -23,7 +23,7 @@ public class SwerveModuleConstants {
 		int driveMotorID, int azimuthMotorID, int canCoderID, Rotation2d angleOffset) {
 		this.DriveMotorID = driveMotorID;
 		this.AzimuthMotorID = azimuthMotorID;
-		this.CADCoderID = canCoderID;
+		this.CANCoderID = canCoderID;
 		this.AngleOffset = angleOffset;
 	}
 
