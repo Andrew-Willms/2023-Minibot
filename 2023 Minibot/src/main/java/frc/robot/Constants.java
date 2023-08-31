@@ -16,7 +16,9 @@ import frc.config.SwerveModuleConstants;
 public final class Constants {
 
 	public static class OperatorConstants {
+
 		public static final int DriverControllerPort = 0;
+
 	}
 
 	public static final class Swerve {
@@ -107,7 +109,7 @@ public final class Constants {
 		}
 
 		// Back Left Module - Module 2
-		public static final class Moduel2 {
+		public static final class Module2 {
 			public static final int DriveMotorID = 7;
 			public static final int AzimuthMotorID = 8;
 			public static final int CANCoderID = 0;
@@ -124,6 +126,16 @@ public final class Constants {
 			public static final SwerveModuleConstants constants = new SwerveModuleConstants(DriveMotorID, AzimuthMotorID, CADCoderID, angleOffset);
 		}
 		
+	}
+
+	public static final class IntakeWheels {
+		
+		public static final int LeftMotorCANID = 9;
+		public static final int RightMotorCANID = 10;
+		
+		public static final boolean LeftMotorIsInverted = false;
+		public static final boolean RightMotorIsInverted = true;
+
 	}
 
 }
