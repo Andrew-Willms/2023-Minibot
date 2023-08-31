@@ -20,6 +20,12 @@ public class IntakeWheels extends SubsystemBase {
 		LeftIntakeMotor = new CANSparkMax(Constants.IntakeWheels.LeftMotorCANID, MotorType.kBrushless);
 		RightIntakeMotor = new CANSparkMax(Constants.IntakeWheels.RightMotorCANID, MotorType.kBrushless);
 
+		LeftIntakeMotor.setSecondaryCurrentLimit(Constants.IntakeWheels.LeftMotorSecondaryCurrentLimit);
+		RightIntakeMotor.setSecondaryCurrentLimit(Constants.IntakeWheels.RightMotorSecondaryCurrentLimit);
+
+		LeftIntakeMotor.setSmartCurrentLimit(Constants.IntakeWheels.LeftMotorSmartCurrentLimit);
+		RightIntakeMotor.setSmartCurrentLimit(Constants.IntakeWheels.RightMotorSmartCurrentLimit);
+
 		LeftIntakeMotor.setInverted(Constants.IntakeWheels.LeftMotorIsInverted);
 		RightIntakeMotor.setInverted(Constants.IntakeWheels.RightMotorIsInverted);
 
