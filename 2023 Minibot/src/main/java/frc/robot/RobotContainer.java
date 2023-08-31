@@ -1,19 +1,10 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
-
-import edu.wpi.first.wpilibj.GenericHID;
+//import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj2.command.Command;
@@ -23,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 //import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-
+import frc.robot.Autos.*;
 
 
 /**
@@ -42,7 +33,7 @@ public class RobotContainer {
 	private final int StrafeAxisID = XboxController.Axis.kLeftX.value;
 	private final int CCWRotationAxisID = XboxController.Axis.kLeftTrigger.value;
 	private final int CWRotationAxisID = XboxController.Axis.kRightTrigger.value;
-	private final int IntakeWheelsForwardID = XboxController.Axis.kRightX.value;
+	private final int IntakeWheelseAxisID = XboxController.Axis.kRightX.value;
 
 	// Driver Buttons
 	private final JoystickButton ZeroGyroButton = new JoystickButton(DriverController, XboxController.Button.kY.value);
@@ -53,7 +44,8 @@ public class RobotContainer {
 
 	// Subsystems
 	private final SwerveDrive SwerveDrive = new SwerveDrive();
-	private final IntakeWheels Intake = new IntakeWheels();
+	private final IntakeWheels IntakeWheels = new IntakeWheels();
+	private final IntakeArm IntakeArm = new IntakeArm(Constants.IntakeArm.Position.CarryCube);
 
 	// The container for the robot. Contains subsystems, OI devices, and commands.
 	public RobotContainer() {
@@ -67,7 +59,7 @@ public class RobotContainer {
 				() -> -DriverController.getRawAxis(CWRotationAxisID),
 				() -> RobotCentricButton.getAsBoolean()));
 
-		Intake.setDefaultCommand(new TeleopIntakeWheels);
+		IntakeWheels.setDefaultCommand(new TeleopIntakeWheels(IntakeWheels, () -> DriverController.getRawAxis(IntakeWheelseAxisID)));
 
 		ConfigureBindings();
 	}
@@ -83,22 +75,16 @@ public class RobotContainer {
 	 */
 	private void ConfigureBindings() {
 
-		// Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed, cancelling on release.
-		//DriverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-
 		ZeroGyroButton.onTrue(new InstantCommand(() -> SwerveDrive.ZeroGyro()));
 
-		DriverController.
+		PickupPositionButton.onTrue(IntakeArm.GetIntakeArmPositionSetterCommand(Constants.IntakeArm.Position.Pickup));
+		CarryCubePositionButton.onTrue(IntakeArm.GetIntakeArmPositionSetterCommand(Constants.IntakeArm.Position.CarryCube));
+		CarryConePositionButton.onTrue(IntakeArm.GetIntakeArmPositionSetterCommand(Constants.IntakeArm.Position.CarryCone));
 	}
 
-	/**
-	 * Use this to pass the autonomous command to the main {@link Robot} class.
-	 *
-	 * @return the command to run in autonomous
-	 */
 	public Command GetAutonomousCommand() {
 		// An example command will be run in autonomous
-		return Autos.exampleAuto(m_exampleSubsystem);
+		return new DoNothing(SwerveDrive, IntakeArm);
 	}
 
 }
