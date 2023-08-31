@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -141,6 +142,21 @@ public final class Constants {
 
 		public static final boolean LeftMotorIsInverted = false;
 		public static final boolean RightMotorIsInverted = true;
+
+		public enum Target {
+			Pickup(-3.0, CANSparkMax.ControlType.kVelocity),
+			Hold(5, CANSparkMax.ControlType.kCurrent),
+			Drop(2.0, CANSparkMax.ControlType.kVelocity),
+			ScoreLow(3.0, CANSparkMax.ControlType.kVelocity);
+		
+			public final double Target;
+			public final CANSparkMax.ControlType ControlType;
+
+			private Target(double target, CANSparkMax.ControlType controlType) {
+				Target = target;
+				ControlType = controlType;
+			}
+		}
 	}
 
 	public static final class IntakeArm {
@@ -167,6 +183,7 @@ public final class Constants {
 				EncoderPosition = encoderPosition;
 			}
 		}
+
 	}
 
 }
