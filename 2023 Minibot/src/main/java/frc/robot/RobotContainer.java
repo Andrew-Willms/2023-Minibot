@@ -13,6 +13,18 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
+//import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+//import frc.robot.autos.BaseAuto;
+//import frc.robot.autos.*;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
+
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -22,17 +34,42 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
 
-	// The robot's subsystems and commands are defined here...
-	private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
 	// Replace with CommandPS4Controller or CommandJoystick if needed
-	private final CommandXboxController DriverController = new CommandXboxController(OperatorConstants.DriverControllerPort);
+	private final Joystick DriverController = new Joystick(OperatorConstants.DriverControllerPort);
 
-	/** The container for the robot. Contains subsystems, OI devices, and commands. */
+	// Driver Analog Controls
+	private final int TranslationAxisID = XboxController.Axis.kLeftY.value;
+	private final int StrafeAxisID = XboxController.Axis.kLeftX.value;
+	private final int CCWRotationAxisID = XboxController.Axis.kLeftTrigger.value;
+	private final int CWRotationAxisID = XboxController.Axis.kRightTrigger.value;
+	private final int IntakeWheelsForwardID = XboxController.Axis.kRightX.value;
+
+	// Driver Buttons
+	private final JoystickButton ZeroGyroButton = new JoystickButton(DriverController, XboxController.Button.kY.value);
+	private final JoystickButton RobotCentricButton = new JoystickButton(DriverController, XboxController.Button.kLeftBumper.value);
+	private final JoystickButton PickupPositionButton = new JoystickButton(DriverController, XboxController.Button.kY.value);
+	private final JoystickButton CarryCubePositionButton = new JoystickButton(DriverController, XboxController.Button.kA.value);
+	private final JoystickButton CarryConePositionButton = new JoystickButton(DriverController, XboxController.Button.kX.value);
+
+	// Subsystems
+	private final SwerveDrive SwerveDrive = new SwerveDrive();
+	private final IntakeWheels Intake = new IntakeWheels();
+
+	// The container for the robot. Contains subsystems, OI devices, and commands.
 	public RobotContainer() {
 
-		// Configure the trigger bindings
-		configureBindings();
+		SwerveDrive.setDefaultCommand(
+			new TeleopSwerve(
+				SwerveDrive,
+				() -> -DriverController.getRawAxis(TranslationAxisID),
+				() -> -DriverController.getRawAxis(StrafeAxisID),
+				() -> -DriverController.getRawAxis(CCWRotationAxisID),
+				() -> -DriverController.getRawAxis(CWRotationAxisID),
+				() -> RobotCentricButton.getAsBoolean()));
+
+		Intake.setDefaultCommand(new TeleopIntakeWheels);
+
+		ConfigureBindings();
 	}
 
 	/**
@@ -44,14 +81,14 @@ public class RobotContainer {
 	 * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
 	 * joysticks}.
 	 */
-	private void configureBindings() {
-
-		// Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-		new Trigger(m_exampleSubsystem::exampleCondition)
-				.onTrue(new ExampleCommand(m_exampleSubsystem));
+	private void ConfigureBindings() {
 
 		// Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed, cancelling on release.
-		DriverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+		//DriverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+		ZeroGyroButton.onTrue(new InstantCommand(() -> SwerveDrive.ZeroGyro()));
+
+		DriverController.
 	}
 
 	/**
@@ -59,7 +96,7 @@ public class RobotContainer {
 	 *
 	 * @return the command to run in autonomous
 	 */
-	public Command getAutonomousCommand() {
+	public Command GetAutonomousCommand() {
 		// An example command will be run in autonomous
 		return Autos.exampleAuto(m_exampleSubsystem);
 	}

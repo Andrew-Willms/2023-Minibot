@@ -18,15 +18,15 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
 
-	private Command m_autonomousCommand;
+	private Command AutoCommand;
 
-	private RobotContainer m_robotContainer;
+	private RobotContainer RobotContainer;
 
 	@Override
 	public void robotInit() {
 
 		// Instantiate our RobotContainer. This will perform all our button bindings, and put our autonomous chooser on the dashboard.
-		m_robotContainer = new RobotContainer();
+		RobotContainer = new RobotContainer();
 	}
 
 	/**
@@ -54,11 +54,11 @@ public class Robot extends TimedRobot {
 	/** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+		AutoCommand = RobotContainer.GetAutonomousCommand();
 
 		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.schedule();
+		if (AutoCommand != null) {
+			AutoCommand.schedule();
 		}
 	}
 
@@ -72,26 +72,12 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
+		if (AutoCommand != null) {
+			AutoCommand.cancel();
 		}
 	}
 
 	@Override
 	public void teleopPeriodic() { }
-
-	@Override
-	public void testInit( ) {
-		CommandScheduler.getInstance().cancelAll();
-	}
-
-	@Override
-	public void testPeriodic() { }
-
-	@Override
-	public void simulationInit() { }
-
-	@Override
-	public void simulationPeriodic() { }
 
 }
