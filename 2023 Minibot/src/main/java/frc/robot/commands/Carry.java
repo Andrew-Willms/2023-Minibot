@@ -16,7 +16,7 @@ public class Carry extends CommandBase {
 
 		IntakeArm = intakeArm;
 		IntakeWheels = intakeWheels;
-		addRequirements(intakeArm, intakeArm);
+		addRequirements(intakeArm, intakeWheels);
 
 		IntakeArm.SetPosition(Constants.IntakeArm.Position.Carry);
 		IntakeWheels.SetTarget(Constants.IntakeWheels.Target.Hold);
