@@ -144,22 +144,22 @@ public final class Constants {
 		public static final boolean RightMotorIsInverted = true;
 
 		public enum Target {
-			Pickup(-3.0, CANSparkMax.ControlType.kVelocity),
-			Hold(5, CANSparkMax.ControlType.kCurrent),
-			Drop(2.0, CANSparkMax.ControlType.kVelocity),
-			ScoreLow(3.0, CANSparkMax.ControlType.kVelocity),
-			ScoreMid(3.0, CANSparkMax.ControlType.kVelocity),
-			ScoreHigh(3.0, CANSparkMax.ControlType.kVelocity);
+			Pickup(-3.0, Type.Velocity),
+			Hold(5, Type.Power),
+			Drop(2.0, Type.Velocity),
+			ScoreLow(3.0, Type.Velocity),
+			MidYeet(3.0, Type.Velocity),
+			MaxYeet(3.0, Type.Velocity);
 		
 			public final double Target;
-			public final CANSparkMax.ControlType ControlType;
+			public final Type TargetType;
 
-			private Target(double target, CANSparkMax.ControlType controlType) {
+			private Target(double target, Type targetType) {
 				Target = target;
-				ControlType = controlType;
+				TargetType = targetType;
 			}
 
-			public enum ControlType { Power, Velocity }
+			public static enum Type { Power, Velocity }
 		}
 	}
 
