@@ -122,6 +122,12 @@ public class SwerveDrive extends SubsystemBase {
 			SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getState().angle.getDegrees());
 			SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
 		}
+
+		// Drive(
+		// 	new Translation2d(0.25, 0.25).times(Constants.Swerve.MaxSpeed),
+		// 	0 * Constants.Swerve.MaxAngularVelocity,
+		// 	true,
+		// 	true);
 	}
 
 }

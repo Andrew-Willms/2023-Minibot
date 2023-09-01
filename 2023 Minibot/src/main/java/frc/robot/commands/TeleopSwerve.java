@@ -8,6 +8,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.SwerveDrive;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -59,6 +60,10 @@ public class TeleopSwerve extends CommandBase {
 			rotationValue * Constants.Swerve.MaxAngularVelocity,
 			!RobotCentricSupplier.getAsBoolean(),
 			true);
+
+			SmartDashboard.putNumber("Translation", translationValue);
+			SmartDashboard.putNumber("Strafe", strafeValue);
+			SmartDashboard.putNumber("Rotation", netRotation);
 	}
 
 }

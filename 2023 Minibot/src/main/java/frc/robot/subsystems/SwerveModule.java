@@ -32,7 +32,7 @@ public class SwerveModule {
 
 	private RelativeEncoder driveEncoder;
 	private RelativeEncoder integratedAngleEncoder;
-	private CANCoder angleEncoder;
+	//private CANCoder angleEncoder;
 	private final DutyCycleEncoder angleEncoderTemp;
 
 	private final SparkMaxPIDController driveController;
@@ -47,7 +47,7 @@ public class SwerveModule {
 		angleOffset = moduleConstants.AngleOffset;
 
 		// Angle Encoder Config
-		angleEncoder = new CANCoder(moduleConstants.CANCoderID);
+		//angleEncoder = new CANCoder(moduleConstants.CANCoderID);
 		configAngleEncoder();
 		angleEncoderTemp = new DutyCycleEncoder(moduleConstants.CANCoderID); //TODO remove once we have cancoders
 		angleEncoderTemp.setPositionOffset(angleOffset.getDegrees() / 360); //TODO remove once we have cancoders
@@ -86,8 +86,8 @@ public class SwerveModule {
 
 	private void configAngleEncoder() {
 
-		angleEncoder.configFactoryDefault();
-		CANCoderUtilities.setCANCoderBusUsage(angleEncoder, CCUsage.kMinimal);
+		//angleEncoder.configFactoryDefault();
+		//CANCoderUtilities.setCANCoderBusUsage(angleEncoder, CCUsage.kMinimal);
 		//angleEncoder.configAllSettings(Robot.ctreConfigs.swerveCanCoderConfig); //TODO uncomment once we have cancoders
 	}
 
