@@ -33,19 +33,19 @@ public class RobotContainer {
 	private final int StrafeAxisID = XboxController.Axis.kLeftX.value;
 	private final int CCWRotationAxisID = XboxController.Axis.kLeftTrigger.value;
 	private final int CWRotationAxisID = XboxController.Axis.kRightTrigger.value;
-	private final int IntakeWheelseAxisID = XboxController.Axis.kRightX.value;
 
 	// Driver Buttons
 	private final JoystickButton ZeroGyroButton = new JoystickButton(DriverController, XboxController.Button.kY.value);
 	private final JoystickButton RobotCentricButton = new JoystickButton(DriverController, XboxController.Button.kLeftBumper.value);
-	private final JoystickButton PickupPositionButton = new JoystickButton(DriverController, XboxController.Button.kY.value);
-	private final JoystickButton CarryCubePositionButton = new JoystickButton(DriverController, XboxController.Button.kA.value);
-	private final JoystickButton CarryConePositionButton = new JoystickButton(DriverController, XboxController.Button.kX.value);
+	private final JoystickButton PickupButton = new JoystickButton(DriverController, XboxController.Button.kA.value);
+	private final JoystickButton CarryButton = new JoystickButton(DriverController, XboxController.Button.kX.value);
+	private final JoystickButton EdjectButton = new JoystickButton(DriverController, XboxController.Button.kB.value);
+	private final JoystickButton YeetButton = new JoystickButton(DriverController, XboxController.Button.kY.value);
 
 	// Subsystems
 	private final SwerveDrive SwerveDrive = new SwerveDrive();
 	private final IntakeWheels IntakeWheels = new IntakeWheels();
-	private final IntakeArm IntakeArm = new IntakeArm(Constants.IntakeArm.Position.CarryCube);
+	private final IntakeArm IntakeArm = new IntakeArm(Constants.IntakeArm.Position.Carry);
 
 	// The container for the robot. Contains subsystems, OI devices, and commands.
 	public RobotContainer() {
@@ -59,7 +59,7 @@ public class RobotContainer {
 				() -> -DriverController.getRawAxis(CWRotationAxisID),
 				() -> RobotCentricButton.getAsBoolean()));
 
-		IntakeWheels.setDefaultCommand(new TeleopIntakeWheels(IntakeWheels, () -> DriverController.getRawAxis(IntakeWheelseAxisID)));
+		IntakeWheels.setDefaultCommand(new Carry(IntakeArm, IntakeWheels));
 
 		ConfigureBindings();
 	}
@@ -77,9 +77,10 @@ public class RobotContainer {
 
 		ZeroGyroButton.onTrue(new InstantCommand(() -> SwerveDrive.ZeroGyro()));
 
-		PickupPositionButton.onTrue(IntakeArm.GetIntakeArmPositionSetterCommand(Constants.IntakeArm.Position.Pickup));
-		CarryCubePositionButton.onTrue(IntakeArm.GetIntakeArmPositionSetterCommand(Constants.IntakeArm.Position.CarryCube));
-		CarryConePositionButton.onTrue(IntakeArm.GetIntakeArmPositionSetterCommand(Constants.IntakeArm.Position.CarryCone));
+		PickupButton.onTrue(new Pickup(IntakeArm, IntakeWheels));
+		CarryButton.onTrue(new Pickup(IntakeArm, IntakeWheels));
+		EdjectButton.onTrue(new Pickup(IntakeArm, IntakeWheels));
+		YeetButton.onTrue(new Pickup(IntakeArm, IntakeWheels));
 	}
 
 	public Command GetAutonomousCommand() {

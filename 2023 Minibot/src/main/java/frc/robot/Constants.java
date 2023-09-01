@@ -138,19 +138,30 @@ public final class Constants {
 		public static final boolean LeftMotorIsInverted = false;
 		public static final boolean RightMotorIsInverted = true;
 
+		public static final double LeftMotorP = 1;
+		public static final double LeftMotorI = 0.1;
+		public static final double LeftMotorIZone = 0.1;
+		public static final double LeftMotorD = 0.25;
+		public static final double LeftMotorFeedForward = 1;
+
+		public static final double RightMotorP = 1;
+		public static final double RightMotorI = 0.1;
+		public static final double RightMotorIZone = 0.1;
+		public static final double RightMotorD = 0.25;
+		public static final double RightMotorFeedForward = 1;
+
 		public enum Target {
+			Rest(0, Type.Velocity),
 			Pickup(-3.0, Type.Velocity),
 			Hold(5, Type.Power),
-			Drop(2.0, Type.Velocity),
-			ScoreLow(3.0, Type.Velocity),
-			MidYeet(3.0, Type.Velocity),
-			MaxYeet(3.0, Type.Velocity);
+			Edject(2.0, Type.Velocity),
+			Yeet(3.0, Type.Velocity);
 		
-			public final double Target;
+			public final double Value;
 			public final Type TargetType;
 
-			private Target(double target, Type targetType) {
-				Target = target;
+			private Target(double value, Type targetType) {
+				Value = value;
 				TargetType = targetType;
 			}
 
@@ -173,8 +184,7 @@ public final class Constants {
 
 		public enum Position {
 			Pickup(1.0),
-			CarryCone(2.0),
-			CarryCube(3.0);
+			Carry(2.0);
 		
 			public final double EncoderPosition;
 		

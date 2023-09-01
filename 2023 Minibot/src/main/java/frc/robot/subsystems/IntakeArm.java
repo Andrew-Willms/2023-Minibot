@@ -6,7 +6,6 @@ import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants;
 
@@ -39,8 +38,8 @@ public class IntakeArm extends SubsystemBase {
 		PIDController.setFF(Constants.IntakeArm.MotorFeedForward);
 	}
 
-	public CommandBase GetIntakeArmPositionSetterCommand(Constants.IntakeArm.Position position) {
-		return runOnce(() -> { PIDController.setReference(position.EncoderPosition, ControlType.kPosition); });
+	public void SetPosition(Constants.IntakeArm.Position position) {
+		PIDController.setReference(position.EncoderPosition, ControlType.kPosition);
 	}
 
 	public Constants.IntakeArm.Position GetTargetPosition() {
