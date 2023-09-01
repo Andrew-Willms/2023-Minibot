@@ -122,6 +122,12 @@ public final class Constants {
 			public static final SwerveModuleConstants constants = new SwerveModuleConstants(DriveMotorID, AzimuthMotorID, CADCoderID, angleOffset);
 		}
 		
+		public static final class SlewRateLimits {
+			public static final double Translation = 1.2;
+			public static final double Strafe = 1.2;
+			public static final double RotationLimit = 3.0;
+		}
+
 	}
 
 	public static final class IntakeWheels {

@@ -21,10 +21,10 @@ public class TeleopSwerve extends CommandBase {
 	private DoubleSupplier CWRotationSupplier;
 	private BooleanSupplier RobotCentricSupplier;
 
-	private SlewRateLimiter translationLimiter = new SlewRateLimiter(3.0);
-	private SlewRateLimiter strafeLimiter = new SlewRateLimiter(3.0);
-	private SlewRateLimiter rotationLimiter = new SlewRateLimiter(3.0);
-
+	private SlewRateLimiter TranslationLimiter = new SlewRateLimiter(Constants.Swerve.SlewRateLimits.Translation);
+	private SlewRateLimiter StrafeLimiter = new SlewRateLimiter(Constants.Swerve.SlewRateLimits.Strafe);
+	private SlewRateLimiter RotationLimiter = new SlewRateLimiter(Constants.Swerve.SlewRateLimits.RotationLimit);
+	
 	public TeleopSwerve(
 		SwerveDrive swerveDrive,
 		DoubleSupplier translationSupplier,
@@ -34,25 +34,25 @@ public class TeleopSwerve extends CommandBase {
 		BooleanSupplier robotCentricSupplier) {
 
 		addRequirements(swerveDrive);
-		this.SwerveDrive = swerveDrive;
-		this.TranslationSupplier = translationSupplier;
-		this.StrafeSupplier = strafeSupplier;
-		this.CCWRotationSupplier = ccwRotationSupplier;
-		this.CWRotationSupplier = cwRotationSupplier;
-		this.RobotCentricSupplier = robotCentricSupplier;
+		SwerveDrive = swerveDrive;
+		TranslationSupplier = translationSupplier;
+		StrafeSupplier = strafeSupplier;
+		CCWRotationSupplier = ccwRotationSupplier;
+		CWRotationSupplier = cwRotationSupplier;
+		RobotCentricSupplier = robotCentricSupplier;
 	}
 
 	@Override
 	public void execute() {
 
-		double translationValue = translationLimiter.calculate(
+		double translationValue = TranslationLimiter.calculate(
 			MathUtil.applyDeadband(TranslationSupplier.getAsDouble(), Constants.Swerve.StickDeadband));
 
-		double strafeValue = strafeLimiter.calculate(
+		double strafeValue = StrafeLimiter.calculate(
 			MathUtil.applyDeadband(StrafeSupplier.getAsDouble(), Constants.Swerve.StickDeadband));
 
 		double netRotation = CWRotationSupplier.getAsDouble() - CCWRotationSupplier.getAsDouble();
-		double rotationValue = rotationLimiter.calculate(
+		double rotationValue = RotationLimiter.calculate(
 			MathUtil.applyDeadband(netRotation, Constants.Swerve.StickDeadband));
 
 		SwerveDrive.Drive(
