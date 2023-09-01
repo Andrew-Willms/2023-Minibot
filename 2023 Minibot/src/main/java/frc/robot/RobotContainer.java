@@ -35,7 +35,7 @@ public class RobotContainer {
 	private final int CWRotationAxisID = XboxController.Axis.kRightTrigger.value;
 
 	// Driver Buttons
-	private final JoystickButton ZeroGyroButton = new JoystickButton(DriverController, XboxController.Button.kY.value);
+	private final JoystickButton ZeroGyroButton = new JoystickButton(DriverController, XboxController.Button.kRightBumper.value);
 	private final JoystickButton RobotCentricButton = new JoystickButton(DriverController, XboxController.Button.kLeftBumper.value);
 	private final JoystickButton PickupButton = new JoystickButton(DriverController, XboxController.Button.kA.value);
 	private final JoystickButton CarryButton = new JoystickButton(DriverController, XboxController.Button.kX.value);
