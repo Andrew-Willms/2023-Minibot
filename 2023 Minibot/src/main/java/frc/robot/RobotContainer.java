@@ -26,7 +26,7 @@ import frc.robot.Autos.*;
 public class RobotContainer {
 
 	// Replace with CommandPS4Controller or CommandJoystick if needed
-	private final Joystick DriverController = new Joystick(OperatorConstants.DriverControllerPort);
+	private final CommandXboxController DriverController = new CommandXboxController(OperatorConstants.DriverControllerPort);
 
 	// Driver Analog Controls
 	private final int TranslationAxisID = XboxController.Axis.kLeftY.value;
@@ -35,12 +35,12 @@ public class RobotContainer {
 	private final int CWRotationAxisID = XboxController.Axis.kRightTrigger.value;
 
 	// Driver Buttons
-	private final JoystickButton ZeroGyroButton = new JoystickButton(DriverController, XboxController.Button.kRightBumper.value);
-	private final JoystickButton RobotCentricButton = new JoystickButton(DriverController, XboxController.Button.kLeftBumper.value);
-	private final JoystickButton PickupButton = new JoystickButton(DriverController, XboxController.Button.kA.value);
-	private final JoystickButton CarryButton = new JoystickButton(DriverController, XboxController.Button.kX.value);
-	private final JoystickButton EdjectButton = new JoystickButton(DriverController, XboxController.Button.kB.value);
-	private final JoystickButton YeetButton = new JoystickButton(DriverController, XboxController.Button.kY.value);
+	// private final JoystickButton ZeroGyroButton = new JoystickButton(DriverController, XboxController.Button.kRightBumper.value);
+	// private final JoystickButton RobotCentricButton = new JoystickButton(DriverController, XboxController.Button.kLeftBumper.value);
+	// private final JoystickButton PickupButton = new JoystickButton(DriverController, XboxController.Button.kA.value);
+	// private final JoystickButton CarryButton = new JoystickButton(DriverController, XboxController.Button.kX.value);
+	// private final JoystickButton EjectButton = new JoystickButton(DriverController, XboxController.Button.kB.value);
+	// private final JoystickButton YeetButton = new JoystickButton(DriverController, XboxController.Button.kY.value);
 
 	// Subsystems
 	private final SwerveDrive SwerveDrive = new SwerveDrive();
@@ -50,16 +50,25 @@ public class RobotContainer {
 	// The container for the robot. Contains subsystems, OI devices, and commands.
 	public RobotContainer() {
 
+		// SwerveDrive.setDefaultCommand(
+		// 	new TeleopSwerve(
+		// 		SwerveDrive,
+		// 		() -> -DriverController.getRawAxis(TranslationAxisID),
+		// 		() -> -DriverController.getRawAxis(StrafeAxisID),
+		// 		() -> -DriverController.getRawAxis(CCWRotationAxisID),
+		// 		() -> -DriverController.getRawAxis(CWRotationAxisID),
+		// 		() -> RobotCentricButton.getAsBoolean()));
+
 		SwerveDrive.setDefaultCommand(
 			new TeleopSwerve(
 				SwerveDrive,
-				() -> -DriverController.getRawAxis(TranslationAxisID),
-				() -> -DriverController.getRawAxis(StrafeAxisID),
-				() -> -DriverController.getRawAxis(CCWRotationAxisID),
-				() -> -DriverController.getRawAxis(CWRotationAxisID),
-				() -> RobotCentricButton.getAsBoolean()));
-
-		IntakeWheels.setDefaultCommand(new Carry(IntakeArm, IntakeWheels));
+				() -> -DriverController.getLeftY(),
+				() -> -DriverController.getLeftX(),
+				() -> -DriverController.getLeftTriggerAxis(),
+				() -> -DriverController.getRightTriggerAxis(),
+				() -> DriverController.leftBumper().getAsBoolean()));
+		
+		// IntakeWheels.setDefaultCommand(new Carry(IntakeArm, IntakeWheels));
 
 		ConfigureBindings();
 	}
@@ -75,12 +84,19 @@ public class RobotContainer {
 	 */
 	private void ConfigureBindings() {
 
-		ZeroGyroButton.onTrue(new InstantCommand(() -> SwerveDrive.ZeroGyro()));
+		// ZeroGyroButton.onTrue(new InstantCommand(() -> SwerveDrive.ZeroGyro()));
 
-		PickupButton.onTrue(new Pickup(IntakeArm, IntakeWheels));
-		CarryButton.onTrue(new Pickup(IntakeArm, IntakeWheels));
-		EdjectButton.onTrue(new Pickup(IntakeArm, IntakeWheels));
-		YeetButton.onTrue(new Pickup(IntakeArm, IntakeWheels));
+		// PickupButton.onTrue(new Pickup(IntakeArm, IntakeWheels));
+		// CarryButton.onTrue(new Carry(IntakeArm, IntakeWheels));
+		// EjectButton.onTrue(new Eject(IntakeArm, IntakeWheels));
+		// YeetButton.onTrue(new Yeet(IntakeArm, IntakeWheels));
+
+		DriverController.rightBumper().onTrue(new InstantCommand(() -> SwerveDrive.ZeroGyro()));
+
+		DriverController.a().onTrue(new Pickup(IntakeArm, IntakeWheels));
+		DriverController.x().onTrue(new Carry(IntakeArm, IntakeWheels));
+		DriverController.b().onTrue(new Eject(IntakeArm, IntakeWheels));
+		DriverController.y().onTrue(new Yeet(IntakeArm, IntakeWheels));
 	}
 
 	public Command GetAutonomousCommand() {
