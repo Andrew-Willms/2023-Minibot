@@ -123,8 +123,8 @@ public final class Constants {
 		}
 		
 		public static final class SlewRateLimits {
-			public static final double Translation = 1.2;
-			public static final double Strafe = 1.2;
+			public static final double Translation = 1.8;
+			public static final double Strafe = 1.8;
 			public static final double RotationLimit = 3.0;
 		}
 
@@ -144,31 +144,17 @@ public final class Constants {
 		public static final boolean LeftMotorIsInverted = false;
 		public static final boolean RightMotorIsInverted = true;
 
-		public static final double LeftMotorP = 1;
-		public static final double LeftMotorI = 0.1;
-		public static final double LeftMotorIZone = 0.1;
-		public static final double LeftMotorD = 0.25;
-		public static final double LeftMotorFeedForward = 1;
-
-		public static final double RightMotorP = 1;
-		public static final double RightMotorI = 0.1;
-		public static final double RightMotorIZone = 0.1;
-		public static final double RightMotorD = 0.25;
-		public static final double RightMotorFeedForward = 1;
-
-		public enum Target {
-			Rest(0, Type.Velocity),
-			Pickup(-3.0, Type.Velocity),
-			Hold(5, Type.Power),
-			Edject(2.0, Type.Velocity),
-			Yeet(3.0, Type.Velocity);
+		public enum Power {
+			Rest(0),
+			Pickup(-0.5),
+			Hold(-0.15),
+			Edject(0.5),
+			Yeet(1);
 		
 			public final double Value;
-			public final Type TargetType;
 
-			private Target(double value, Type targetType) {
+			private Power(double value) {
 				Value = value;
-				TargetType = targetType;
 			}
 
 			public static enum Type { Power, Velocity }

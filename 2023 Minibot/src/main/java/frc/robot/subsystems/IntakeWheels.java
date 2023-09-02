@@ -1,9 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants;
@@ -15,10 +13,7 @@ public class IntakeWheels extends SubsystemBase {
 	private final CANSparkMax LeftMotor;
 	private final CANSparkMax RightMotor;
 
-	private final SparkMaxPIDController LeftPIDController;
-	private final SparkMaxPIDController RightPIDController;
-
-	private Constants.IntakeWheels.Target Target = Constants.IntakeWheels.Target.Rest;
+	private double Power = Constants.IntakeWheels.Power.Rest.Value;
 
 	public IntakeWheels() {
 
@@ -37,43 +32,18 @@ public class IntakeWheels extends SubsystemBase {
 		LeftMotor.setIdleMode(IdleMode.kBrake);
 		RightMotor.setIdleMode(IdleMode.kBrake);
 
-		LeftPIDController = LeftMotor.getPIDController();
-		LeftPIDController.setP(Constants.IntakeWheels.LeftMotorP);
-		LeftPIDController.setI(Constants.IntakeWheels.LeftMotorI);
-		LeftPIDController.setIZone(Constants.IntakeWheels.LeftMotorIZone);
-		LeftPIDController.setD(Constants.IntakeWheels.LeftMotorD);
-		LeftPIDController.setFF(Constants.IntakeWheels.LeftMotorFeedForward);
-
-		RightPIDController = RightMotor.getPIDController();
-		RightPIDController.setP(Constants.IntakeWheels.RightMotorP);
-		RightPIDController.setI(Constants.IntakeWheels.RightMotorI);
-		RightPIDController.setIZone(Constants.IntakeWheels.RightMotorIZone);
-		RightPIDController.setD(Constants.IntakeWheels.RightMotorD);
-		RightPIDController.setFF(Constants.IntakeWheels.RightMotorFeedForward);
-
-		SetTarget(Target);
+		SetPower(Power);
 	}
 
-	public Constants.IntakeWheels.Target GetTarget() {
-		return Target;
+	public double GetPower() {
+		return Power;
 	}
 
-	public void SetTarget(Constants.IntakeWheels.Target target) {
+	public void SetPower(double power) {
 
-		Target = target;
-		switch (target.TargetType) {
-			
-			case Power:
-				LeftMotor.set(Target.Value);
-				RightMotor.set(Target.Value);
-				break;
-
-			case Velocity:
-				LeftPIDController.setReference(Target.Value, ControlType.kVelocity);
-				RightPIDController.setReference(Target.Value, ControlType.kVelocity);
-				break;
-		}
-
+		Power = power;
+		LeftMotor.set(power);
+		RightMotor.set(power);
 	}
 
 	@Override
