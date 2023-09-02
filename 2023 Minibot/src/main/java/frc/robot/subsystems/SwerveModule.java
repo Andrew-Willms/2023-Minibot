@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.CANCoder;
+//import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -12,11 +12,11 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import frc.robot.Constants;
-import frc.config.CANCoderUtilities;
+//import frc.config.CANCoderUtilities;
 import frc.config.CANSparkMaxUtilities;
 import frc.config.OnboardModuleStates;
 import frc.config.SwerveModuleConstants;
-import frc.config.CANCoderUtilities.CCUsage;
+//import frc.config.CANCoderUtilities.CCUsage;
 import frc.config.CANSparkMaxUtilities.Usage;
 
 
