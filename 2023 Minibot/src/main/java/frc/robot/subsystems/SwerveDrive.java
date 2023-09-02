@@ -30,6 +30,7 @@ public class SwerveDrive extends SubsystemBase {
 
 		Gyro = new AHRS(SerialPort.Port.kUSB); // NavX connected over MXP
 		//gyro.restoreFactoryDefaults(); //for Pigeon
+		Gyro.calibrate();
 		ZeroGyro();
 
 		SwerveModules = new SwerveModule[] {
