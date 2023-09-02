@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 import frc.robot.Constants;
@@ -16,11 +17,20 @@ public class Pickup extends CommandBase {
 
 		IntakeArm = intakeArm;
 		IntakeWheels = intakeWheels;
-		addRequirements(intakeArm, intakeArm);
+		addRequirements(intakeArm, intakeWheels);
+	}
+
+	@Override
+	public void initialize() {
 
 		IntakeArm.SetPosition(Constants.IntakeArm.Position.Pickup);
-		IntakeWheels.SetTarget(Constants.IntakeWheels.Target.Pickup);
+		IntakeWheels.SetPower(Constants.IntakeWheels.Power.Pickup.Value);
+
+		SmartDashboard.putString("Command", "Pickup");
 	}
+
+	@Override
+	public void execute() { }
 
 	@Override
 	public boolean isFinished() {
