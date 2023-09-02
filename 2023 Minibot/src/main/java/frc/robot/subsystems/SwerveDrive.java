@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -10,9 +11,15 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.PPSwerveControllerCommand;
+
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 
@@ -77,13 +84,20 @@ public class SwerveDrive extends SubsystemBase {
 		SwerveOdometry.resetPosition(getYaw(), getModulePositions(), pose);
 	}
 
-//   public SwerveModuleState[] getStates() { //TODO this can probably be removed, the getmodulepositions seems to replace it
-//     SwerveModuleState[] states = new SwerveModuleState[4];
-//     for (SwerveModule mod : mSwerveMods) {
-//       states[mod.moduleNumber] = mod.getState();
-//     }
-//     return states;
-//   }
+//	 public SwerveModuleState[] getStates() { //TODO this can probably be removed, the getmodulepositions seems to replace it
+//		 SwerveModuleState[] states = new SwerveModuleState[4];
+//		 for (SwerveModule mod : mSwerveMods) {
+//			 states[mod.moduleNumber] = mod.getState();
+//		 }
+//		 return states;
+//	 }
+
+	public void resetSwerveModuleAngles() {
+		for (SwerveModule module : SwerveModules) {
+			module.resetToAbsolute();
+			module.setDesiredState(new SwerveModuleState(0.05, Rotation2d.fromDegrees(0)), true);
+		}
+	}
 
 	public void ZeroGyro() {
 		Gyro.zeroYaw();
@@ -101,8 +115,8 @@ public class SwerveDrive extends SubsystemBase {
 	public Rotation2d getYaw() {
 
 		// return (Constants.Swerve.invertGyro)
-		//     ? Rotation2d.fromDegrees(360 - gyro.getYaw())
-		//     : Rotation2d.fromDegrees(gyro.getYaw());
+		//		 ? Rotation2d.fromDegrees(360 - gyro.getYaw())
+		//		 : Rotation2d.fromDegrees(gyro.getYaw());
 
 		if (Gyro.isMagnetometerCalibrated()) {
 			// We will only get valid fused headings if the magnetometer is calibrated
@@ -111,6 +125,30 @@ public class SwerveDrive extends SubsystemBase {
 		
 		// We have to invert the angle of the NavX so that rotating the robot counter-clockwise makes the angle increase.
 		return Rotation2d.fromDegrees(360.0 - Gyro.getYaw());
+	}
+
+	public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
+
+		return new SequentialCommandGroup(
+			 new InstantCommand(() -> {
+				 // Reset odometry for the first path you run during auto
+				 if(isFirstPath){
+					 this.resetOdometry(traj.getInitialHolonomicPose());
+					 //this.zeroGyro();
+				 }
+			 }),
+			 new PPSwerveControllerCommand(
+				 traj, 
+				 this::getPose, // Pose supplier
+				 Constants.Swerve.swerveKinematics, // SwerveDriveKinematics
+				 new PIDController(4, 0, 0.3), // X controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+				 new PIDController(4, 0, 0.3), // Y controller (usually the same values as X controller)
+				 new PIDController(3.2, 0, 0.3), // Rotation controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+				 this::setModuleStates, // Module states consumer
+					false, 
+				this // Requires this drive subsystem
+			 )
+		 );
 	}
 
 	@Override
