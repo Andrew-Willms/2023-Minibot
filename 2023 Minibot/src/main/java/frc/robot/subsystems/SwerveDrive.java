@@ -37,8 +37,16 @@ public class SwerveDrive extends SubsystemBase {
 
 		Gyro = new AHRS(SerialPort.Port.kUSB); // NavX connected over MXP
 		//gyro.restoreFactoryDefaults(); //for Pigeon
-		Gyro.calibrate();
-		ZeroGyro();
+		new Thread(() -> {
+			try {
+				Gyro.calibrate();
+				Thread.sleep(5000);
+				ZeroGyro();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}).start();
+
 
 		SwerveModules = new SwerveModule[] {
 			new SwerveModule(0, Constants.Swerve.Module0.constants),
@@ -161,6 +169,8 @@ public class SwerveDrive extends SubsystemBase {
 			SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getState().angle.getDegrees());
 			SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);
 		}
+
+		SmartDashboard.putNumber("Gyro", Gyro.getAngle());
 
 		// Drive(
 		// 	new Translation2d(0.25, 0.25).times(Constants.Swerve.MaxSpeed),

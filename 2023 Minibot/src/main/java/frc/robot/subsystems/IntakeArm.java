@@ -27,11 +27,12 @@ public class IntakeArm extends SubsystemBase {
 
 		Motor = new CANSparkMax(Constants.IntakeArm.MotorCANDID, MotorType.kBrushless);
 		Motor.setIdleMode(IdleMode.kBrake);
-		
+
 		Motor.setSecondaryCurrentLimit(Constants.IntakeArm.MotorSecondaryCurrentLimit);
 		Motor.setSmartCurrentLimit(Constants.IntakeArm.MotorSmartCurrentLimit);
 
 		Encoder = Motor.getEncoder();
+		Encoder.setPosition(0);
 
 		PIDController = Motor.getPIDController();
 		PIDController.setP(Constants.IntakeArm.MotorP);
@@ -39,10 +40,12 @@ public class IntakeArm extends SubsystemBase {
 		PIDController.setIZone(Constants.IntakeArm.MotorIZone);
 		PIDController.setD(Constants.IntakeArm.MotorD);
 		PIDController.setFF(Constants.IntakeArm.MotorFeedForward);
+
+		PIDController.setOutputRange(-0.65, 0.65);
 	}
 
 	public void SetPosition(Constants.IntakeArm.Position position) {
-		PIDController.setReference(position.EncoderPosition, ControlType.kPosition);
+		PIDController.setReference(position.EncoderPosition / 2, ControlType.kPosition); // idk why but we need to divide by 2
 	}
 
 	public Constants.IntakeArm.Position GetTargetPosition() {

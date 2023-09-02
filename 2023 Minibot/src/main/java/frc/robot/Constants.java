@@ -46,8 +46,8 @@ public final class Constants {
 		public static final double VoltageCompensation = 12.0;
 
 		// Swerve Current Limiting
-		public static final int AzimuthContinuousCurrentLimit = 40;
-		public static final int DriveContinuousCurrentLimit = 60;
+		public static final int AzimuthContinuousCurrentLimit = 30;
+		public static final int DriveContinuousCurrentLimit = 50;
 
 		// Angle Motor PID Values
 		public static final double AngleKP = 0.01;
@@ -73,7 +73,7 @@ public final class Constants {
 
 		// Swerve Profiling Values
 		public static final double MaxSpeed = 11; // meters per second
-		public static final double MaxAngularVelocity = 11.5;
+		public static final double MaxAngularVelocity = 20;
 
 		// Neutral Modes
 		public static final IdleMode AngleNeutralMode = IdleMode.kBrake;
@@ -125,7 +125,7 @@ public final class Constants {
 		public static final class SlewRateLimits {
 			public static final double Translation = 1.8;
 			public static final double Strafe = 1.8;
-			public static final double RotationLimit = 3.0;
+			public static final double RotationLimit = 5.0;
 		}
 
 	}
@@ -135,8 +135,8 @@ public final class Constants {
 		public static final int LeftMotorCANID = 10;
 		public static final int RightMotorCANID = 11;
 		
-		public static final int LeftMotorSmartCurrentLimit = 70; // reduce limmit
-		public static final int RightMotorSmartCurrentLimit = 70;
+		public static final int LeftMotorSmartCurrentLimit = 65; // reduce limmit
+		public static final int RightMotorSmartCurrentLimit = 65;
 
 		public static final double LeftMotorSecondaryCurrentLimit = 110; // on off limit
 		public static final double RightMotorSecondaryCurrentLimit = 110;
@@ -147,7 +147,7 @@ public final class Constants {
 		public enum Power {
 			Rest(0),
 			Pickup(-0.5),
-			Hold(-0.15),
+			Hold(-0.08),
 			Edject(0.5),
 			Yeet(1);
 		
@@ -165,18 +165,20 @@ public final class Constants {
 
 		public static final int MotorCANDID = 9;
 
-		public static final int MotorSmartCurrentLimit = 70;
+		public static final int MotorSmartCurrentLimit = 50;
 		public static final double MotorSecondaryCurrentLimit = 110;
 
 		public static final double MotorP = 1;
-		public static final double MotorI = 0.1;
-		public static final double MotorIZone = 0.1;
+		public static final double MotorI = 0.0;
+		public static final double MotorIZone = 0.0;
 		public static final double MotorD = 0.25;
 		public static final double MotorFeedForward = 1;
 
 		public enum Position {
-			Pickup(1.0),
-			Carry(2.0);
+			Carry(0.0),
+			Pickup(-21),
+			MidShot(-10),
+			HighShot(-5);
 		
 			public final double EncoderPosition;
 		

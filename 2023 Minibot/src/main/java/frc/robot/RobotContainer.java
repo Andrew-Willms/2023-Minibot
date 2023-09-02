@@ -66,7 +66,7 @@ public class RobotContainer {
 				() -> -DriverController.getLeftX(),
 				() -> -DriverController.getLeftTriggerAxis(),
 				() -> -DriverController.getRightTriggerAxis(),
-				() -> DriverController.leftBumper().getAsBoolean()));
+				() -> false));
 		
 		// IntakeWheels.setDefaultCommand(new Carry(IntakeArm, IntakeWheels));
 
@@ -95,8 +95,13 @@ public class RobotContainer {
 
 		DriverController.a().onTrue(new Pickup(IntakeArm, IntakeWheels));
 		DriverController.x().onTrue(new Carry(IntakeArm, IntakeWheels));
-		DriverController.b().onTrue(new Eject(IntakeArm, IntakeWheels));
+		DriverController.b().onTrue(new Stop(IntakeWheels));
 		DriverController.y().onTrue(new Yeet(IntakeArm, IntakeWheels));
+
+		// DriverController.pov(0).onTrue(new InstantCommand(() -> IntakeArm.SetPosition(Constants.IntakeArm.Position.HighShot)));
+		// DriverController.pov(90).onTrue(new InstantCommand(() -> IntakeArm.SetPosition(Constants.IntakeArm.Position.MidShot)));
+		// DriverController.pov(180).onTrue(new InstantCommand(() -> IntakeArm.SetPosition(Constants.IntakeArm.Position.Carry)));
+		// DriverController.pov(270).onTrue(new InstantCommand(() -> IntakeArm.SetPosition(Constants.IntakeArm.Position.Pickup)));
 	}
 
 	public Command GetAutonomousCommand() {
