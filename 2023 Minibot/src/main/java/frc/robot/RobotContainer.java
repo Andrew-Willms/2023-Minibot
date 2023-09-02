@@ -93,10 +93,13 @@ public class RobotContainer {
 
 		DriverController.rightBumper().onTrue(new InstantCommand(() -> SwerveDrive.ZeroGyro()));
 
+		DriverController.start().onTrue(new InstantCommand(() -> SwerveDrive.resetSwerveModuleAngles()));
+
 		DriverController.a().onTrue(new Pickup(IntakeArm, IntakeWheels));
 		DriverController.x().onTrue(new Carry(IntakeArm, IntakeWheels));
 		DriverController.b().onTrue(new Stop(IntakeWheels));
 		DriverController.y().onTrue(new Yeet(IntakeArm, IntakeWheels));
+		DriverController.leftStick().onTrue(new InstantCommand(() -> SwerveDrive.setToXOrientation()));
 
 		// DriverController.pov(0).onTrue(new InstantCommand(() -> IntakeArm.SetPosition(Constants.IntakeArm.Position.HighShot)));
 		// DriverController.pov(90).onTrue(new InstantCommand(() -> IntakeArm.SetPosition(Constants.IntakeArm.Position.MidShot)));
@@ -105,7 +108,6 @@ public class RobotContainer {
 	}
 
 	public Command GetAutonomousCommand() {
-		// An example command will be run in autonomous
 		return new DoNothing(SwerveDrive, IntakeArm);
 	}
 

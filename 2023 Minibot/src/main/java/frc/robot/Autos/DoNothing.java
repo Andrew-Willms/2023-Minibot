@@ -11,8 +11,8 @@ public class DoNothing extends SequentialCommandGroup {
 	public DoNothing(SwerveDrive swerve, IntakeArm intakeArm) {
 
 		addCommands(
-			new InstantCommand(() -> swerve.ZeroGyro())
-			//new InstantCommand(() -> swerve.resetSwerveModuleAngles()) // full robot had this but the swerve implementation I copied did not
+			new InstantCommand(() -> swerve.ZeroGyro()),
+			new InstantCommand(() -> swerve.resetSwerveModuleAngles())
 		);
 	}
 
