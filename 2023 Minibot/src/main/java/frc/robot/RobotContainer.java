@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 //import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 //import frc.robot.autos.BaseAuto;
 //import frc.robot.autos.*;
@@ -98,7 +100,14 @@ public class RobotContainer {
 		DriverController.a().onTrue(new Pickup(IntakeArm, IntakeWheels));
 		DriverController.x().onTrue(new Carry(IntakeArm, IntakeWheels));
 		DriverController.b().onTrue(new Stop(IntakeWheels));
-		DriverController.y().onTrue(new Yeet(IntakeArm, IntakeWheels));
+		
+		//DriverController.y().onTrue(new Yeet(IntakeArm, IntakeWheels));
+		DriverController.y().onTrue(new SequentialCommandGroup(
+			new Yeet(IntakeArm, IntakeWheels),
+			new WaitCommand(0.4),
+			new Stop(IntakeWheels)
+		));
+
 		DriverController.leftStick().onTrue(new InstantCommand(() -> SwerveDrive.setToXOrientation()));
 
 		// DriverController.pov(0).onTrue(new InstantCommand(() -> IntakeArm.SetPosition(Constants.IntakeArm.Position.HighShot)));
@@ -108,7 +117,8 @@ public class RobotContainer {
 	}
 
 	public Command GetAutonomousCommand() {
-		return new DoNothing(SwerveDrive, IntakeArm);
+		return new YeetBallance(SwerveDrive, IntakeArm, IntakeWheels);
+		//return new YeetDriveForwards(SwerveDrive, IntakeArm, IntakeWheels);
 	}
 
 }

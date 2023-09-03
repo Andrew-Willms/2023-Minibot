@@ -24,7 +24,6 @@ public class Yeet extends CommandBase {
 		
 		IntakeArm.SetPosition(Constants.IntakeArm.Position.Carry);
 		IntakeWheels.SetPower(Constants.IntakeWheels.Power.Yeet.Value);
-
 		SmartDashboard.putString("Command", "Yeet");
 	}
 

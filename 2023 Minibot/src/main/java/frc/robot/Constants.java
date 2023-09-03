@@ -47,7 +47,7 @@ public final class Constants {
 
 		// Swerve Current Limiting
 		public static final int AzimuthContinuousCurrentLimit = 30;
-		public static final int DriveContinuousCurrentLimit = 50;
+		public static final int DriveContinuousCurrentLimit = 70;
 
 		// Angle Motor PID Values
 		public static final double AngleKP = 0.01;
@@ -73,7 +73,7 @@ public final class Constants {
 
 		// Swerve Profiling Values
 		public static final double MaxSpeed = 11; // meters per second
-		public static final double MaxAngularVelocity = 20;
+		public static final double MaxAngularVelocity = 16;
 
 		// Neutral Modes
 		public static final IdleMode AngleNeutralMode = IdleMode.kBrake;
@@ -123,9 +123,9 @@ public final class Constants {
 		}
 		
 		public static final class SlewRateLimits {
-			public static final double Translation = 1.8;
-			public static final double Strafe = 1.8;
-			public static final double RotationLimit = 5.0;
+			public static final double Translation = 1.7;
+			public static final double Strafe = 4;
+			public static final double RotationLimit = 2.8;
 		}
 
 	}
@@ -135,8 +135,8 @@ public final class Constants {
 		public static final int LeftMotorCANID = 10;
 		public static final int RightMotorCANID = 11;
 		
-		public static final int LeftMotorSmartCurrentLimit = 65; // reduce limmit
-		public static final int RightMotorSmartCurrentLimit = 65;
+		public static final int LeftMotorSmartCurrentLimit = 60; // reduce limmit
+		public static final int RightMotorSmartCurrentLimit = 60;
 
 		public static final double LeftMotorSecondaryCurrentLimit = 110; // on off limit
 		public static final double RightMotorSecondaryCurrentLimit = 110;
@@ -147,8 +147,8 @@ public final class Constants {
 		public enum Power {
 			Rest(0),
 			Pickup(-0.5),
-			Hold(-0.08),
-			Edject(0.5),
+			Hold(-0.04),
+			Edject(0.4),
 			Yeet(1);
 		
 			public final double Value;
@@ -159,6 +159,7 @@ public final class Constants {
 
 			public static enum Type { Power, Velocity }
 		}
+
 	}
 
 	public static final class IntakeArm {
@@ -185,6 +186,30 @@ public final class Constants {
 			private Position(double encoderPosition) {
 				EncoderPosition = encoderPosition;
 			}
+		}
+
+	}
+
+	public static final class Autos {
+		
+		public static final class YeetDriveForwards {
+
+			public static final Translation2d Translation = new Translation2d(0.6, 0.1).times(Constants.Swerve.MaxSpeed);
+
+			public static final double DriveForwardsDuration = 2.0;
+
+		}
+
+		public static final class YeetBallance {
+
+			public static final Translation2d DriveToChargeStationTranslation = new Translation2d(0.6, 0).times(Constants.Swerve.MaxSpeed);
+
+			public static final double DriveToChargeStationDuration = 2.4;
+
+			//public static final Translation2d DriveOntoChargeStationTranslation = new Translation2d(1, 0).times(Constants.Swerve.MaxSpeed);
+
+			//public static final double DriveOntoChargeStationDuration = 1.8;
+
 		}
 
 	}
