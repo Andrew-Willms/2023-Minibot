@@ -135,11 +135,7 @@ public final class Constants {
 		public static final int LeftMotorCANID = 10;
 		public static final int RightMotorCANID = 11;
 		
-		public static final int LeftMotorSmartCurrentLimit = 60; // reduce limmit
-		public static final int RightMotorSmartCurrentLimit = 60;
-
-		public static final double LeftMotorSecondaryCurrentLimit = 110; // on off limit
-		public static final double RightMotorSecondaryCurrentLimit = 110;
+		public static final int SmartCurrentLimit = 80;
 
 		public static final boolean LeftMotorIsInverted = false;
 		public static final boolean RightMotorIsInverted = true;
@@ -167,7 +163,6 @@ public final class Constants {
 		public static final int MotorCANDID = 9;
 
 		public static final int MotorSmartCurrentLimit = 50;
-		public static final double MotorSecondaryCurrentLimit = 110;
 
 		public static final double MotorP = 1;
 		public static final double MotorI = 0.0;

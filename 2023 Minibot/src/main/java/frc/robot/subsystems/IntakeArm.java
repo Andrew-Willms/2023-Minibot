@@ -26,7 +26,6 @@ public class IntakeArm extends SubsystemBase {
 		Motor = new CANSparkMax(Constants.IntakeArm.MotorCANDID, MotorType.kBrushless);
 		Motor.setIdleMode(IdleMode.kBrake);
 
-		Motor.setSecondaryCurrentLimit(Constants.IntakeArm.MotorSecondaryCurrentLimit);
 		Motor.setSmartCurrentLimit(Constants.IntakeArm.MotorSmartCurrentLimit);
 
 		Encoder = Motor.getEncoder();
